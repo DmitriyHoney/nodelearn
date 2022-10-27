@@ -11,7 +11,6 @@ const sendResponse = (res, status, content) => {
   res.end(content);
 };
 
-
 const urlToArr = (url) => url.split('/').filter((el) => el);
 const isNested = (url) => urlToArr(url).length > 1;
 const getFileNameFromUrl = (url) => urlToArr(url)[0];
@@ -24,9 +23,7 @@ const getBody = (req) => new Promise((resolve, reject) => {
   const res = [];
   req
     .pipe(new LimitSizeStream({ limit: 25 }))
-    .on('data', (chunk) => {
-      res.push(chunk);
-    })
+    .on('data', (chunk) => res.push(chunk))
     .on('end', () => resolve(Buffer.concat(res).toString()))
     .on('error', (err) => reject(err));
 });
