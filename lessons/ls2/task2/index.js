@@ -39,6 +39,7 @@ const validateRequest = (req) => {
 const server = http.createServer((req, res) => {
   const notValid = validateRequest(req);
   if (notValid) return sendResponse(res, notValid.status, notValid.content);
+  // Todo observable pattern when user break request
   // const writeStream = fs.createWriteStream();
   req.on('close', () => {
     fs.rmSync(getFilePath(req.url), { force: true });
