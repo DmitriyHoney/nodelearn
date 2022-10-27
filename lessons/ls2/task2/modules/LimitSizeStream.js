@@ -1,6 +1,7 @@
 'use strict';
 
 const stream = require('node:stream');
+const LimitExceededError = require('./LimitExceededError');
 
 class LimitSizeStream extends stream.Transform {
   constructor({ options, limit = 1048576 }) {
@@ -14,9 +15,8 @@ class LimitSizeStream extends stream.Transform {
       this.push(chunk);
       callback();
     } else {
+      this.emit('error', new LimitExceededError());
       callback();
-      const err = new Error(`File more than ${this.limitSize} Bytes`);
-      this.emit('error', err);
     }
   }
 }

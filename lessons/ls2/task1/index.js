@@ -1,5 +1,4 @@
 'use strict';
-const PORT = 3000;
 
 const http = require('node:http');
 const fs = require('node:fs');
@@ -40,10 +39,5 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => console.log(`Server listen on http://localhost:${PORT}`));
-const serverClose = () => server.close();
+module.exports = server;
 
-module.exports = {
-  server,
-  serverClose
-};

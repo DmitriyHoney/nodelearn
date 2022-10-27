@@ -10,7 +10,7 @@
     "nodemon": "^2.0.20"
   },
   "scripts": {
-    "start": "nodemon ./lessons/ls2/task1/index.js",
+    "start": "nodemon ./lessons/ls2/task2/server.js",
     "test": "jest"
   },
   "dependencies": {

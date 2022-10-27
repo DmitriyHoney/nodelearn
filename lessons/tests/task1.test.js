@@ -5,17 +5,19 @@ const {
 } = require('@jest/globals');
 const axios = require('axios');
 const assert = require('node:assert');
-const PORT = 3000;
+const PORT = 3001;
 
-let closeServer, instance;
+let instance;
 
 describe('Task 1', () => {
+  const NOT_FAILED_CODES = [200, 201, 400, 404, 409, 413, 500];
+  let server = null;
   beforeAll(() => {
     delete require.cache[require.resolve('../ls2/task1/index.js')];
-    const { serverClose } = require('../ls2/task1/index.js');
-    closeServer = serverClose;
+    server = require('../ls2/task1/index.js');
+    server.listen(PORT);
     instance = axios.create({
-      validateStatus: (status) => [200, 400, 404, 500].includes(status),
+      validateStatus: (status) => NOT_FAILED_CODES.includes(status),
       baseURL: `http://localhost:${PORT}/`
     });
   });
@@ -39,7 +41,7 @@ describe('Task 1', () => {
     assert.equal(res.data, 'Nested files not support');
   });
   afterAll(() => {
-    closeServer();
+    server.close();
     instance = null;
   });
 });
